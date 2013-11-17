@@ -5,8 +5,9 @@
 {% block body %}
     <div class="jumbotron">
         <div class="container text-center">
-            <h1>Fling Chromecast Helper</h1>
-            <p>Very simple service that will bring second life to your Chromecast.</p>
+            <h1>Fling ChromeCast Helper</h1>
+            <p>The Fling ChromeCast Helper is very simple service<br> that will bring second life to your Chromecast.</p>
+            <p>The Fling application allows you to beam video files<br> from computers to ChromeCast devices.</p><br>
             <p>Complitely opensource and free!</p>
             <p>
               <iframe src="http://ghbtns.com/github-btn.html?user=frol&repo=Fling-receiver&type=watch&count=true&size=large"
@@ -47,7 +48,8 @@
                 <h2>{% trans %}Step 4 (Profit){% endtrans %}</h2>
                 <ol>
                     <li><a href="http://goo.gl/HAc9ex">{% trans %}Download Fling{% endtrans %}</a></li>
-                    <li>... you have to run fling.jar: <pre>java -jar fling.jar APP_ID</pre> <i>(I hope this will be somehow fixed)</i></li>
+                    <li>{% trans %}To run the application, you need a <a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">Java runtime environment (JRE)</a> for your operating system.{% endtrans %}</li>
+                    <li>... you have to run fling.jar (<a href="https://github.com/entertailion/Fling/blob/master/README.md">more details</a>): <pre>java -jar fling.jar APP_ID</pre> <i>(I hope this will be somehow fixed)</i></li>
                     <li>{% trans %}You are ready to stream videos to Chromecast from your computer! <a href="http://youtu.be/fehncl0nTAE">Profit!</a>{% endtrans %}</li>
                 </ol>
             </div>
