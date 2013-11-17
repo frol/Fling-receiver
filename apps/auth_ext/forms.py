@@ -36,13 +36,15 @@ class SignupForm(forms.Form):
     email = forms.EmailField(label = _("Email"), required = True, widget = forms.TextInput())
     password1 = forms.CharField(label=_("Password"),
         widget=forms.PasswordInput(render_value=False))
-#    password2 = forms.CharField(label=_("Password (again)"),
-#        widget=forms.PasswordInput(render_value=False))
+    password2 = forms.CharField(label=_("Password (again)"),
+        widget=forms.PasswordInput(render_value=False))
     
     def clean(self):
-#        if "password1" in self.cleaned_data and "password2" in self.cleaned_data:
-#            if self.cleaned_data["password1"] != self.cleaned_data["password2"]:
-#                raise forms.ValidationError(_("You must type the same password each time."))
+        if User.objects.filter(email=self.cleaned_data['email']).exists():
+            raise forms.ValidationError(_("User with this email already exists."))
+        if "password1" in self.cleaned_data and "password2" in self.cleaned_data:
+            if self.cleaned_data["password1"] != self.cleaned_data["password2"]:
+                raise forms.ValidationError(_("You must type the same password each time."))
         return self.cleaned_data
     
     def save(self):

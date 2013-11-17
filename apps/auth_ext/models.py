@@ -74,7 +74,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.EmailField(_("Username"), unique=True)
     first_name = models.CharField(_("First name"), max_length=30, blank=True)
     last_name = models.CharField(_("Last name"), max_length=30, blank=True)
-    email = models.EmailField(_("Email address"), blank=True)
+    email = models.EmailField(_("Email address"), blank=True, unique=True)
     is_staff = models.BooleanField(_("Staff status"), default=False,
         help_text=_("Designates whether the user can log into this admin "
                     "site."))
