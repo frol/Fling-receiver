@@ -8,14 +8,14 @@
             <h1>Fling ChromeCast Helper</h1>
             <p>The Fling ChromeCast Helper is very simple service<br> that will bring second life to your Chromecast.</p>
             <p>The Fling application allows you to beam video files<br> from computers to ChromeCast devices.</p><br>
+            {% if not request.user.is_authenticated() %}
+                <p><a class="btn btn-lg btn-success" href="{% url "auth_signup" %}">Try it today</a></p>
+            {% endif %}
             <p>Complitely opensource and free!</p>
             <p>
               <iframe src="http://ghbtns.com/github-btn.html?user=frol&repo=Fling-receiver&type=watch&count=true&size=large"
                 allowtransparency="true" frameborder="0" scrolling="0" width="120" height="30"></iframe>
             </p>
-            {% if not request.user.is_authenticated() %}
-                <p><a class="btn btn-lg btn-success" href="{% url "auth_signup" %}">Try it today</a></p>
-            {% endif %}
         </div>
     </div>
     <div class="marketing">
