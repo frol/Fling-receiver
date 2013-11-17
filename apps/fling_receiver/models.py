@@ -5,7 +5,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 
-APP_ID_REGEX = r'[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}'
+APP_ID_REGEX = r'[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{11}'
 
 class FlingReceiver(models.Model):
     
