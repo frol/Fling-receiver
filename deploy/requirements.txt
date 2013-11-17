@@ -1,0 +1,16 @@
+django==1.6
+south
+https://github.com/ProstoKSI/coffin/archive/datetime.zip
+https://github.com/mitsuhiko/jinja2/archive/master.zip
+
+# Database
+#MySQL-python
+psycopg2
+
+# Basic Python modules
+# pass
+
+# Additional django modules 
+
+https://github.com/dyve/django-bootstrap3/archive/master.zip
+https://github.com/ilblackdragon/django-misc/archive/master.zip

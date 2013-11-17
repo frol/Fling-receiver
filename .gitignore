@@ -1,0 +1,13 @@
+# Ignore all temproray, log and avatar files
+*.pyc
+local_settings.py
+*.swp
+*~
+*.mo
+*.log
+media/*
+static/*_release/
+deploy/uwsgi.ini
+deploy/var/*
+deploy/lock/*
+Thumbs.db

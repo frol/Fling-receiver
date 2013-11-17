@@ -1,0 +1,56 @@
+{% extends "site_base.html" %}
+
+{% block head_title %}{% trans %}{% endtrans %}{% endblock %}
+
+{% block body %}
+    <div class="jumbotron">
+        <div class="container text-center">
+            <h1>Fling Chromecast Helper</h1>
+            <p>Very simple service that will bring second life to your Chromecast.</p>
+            <p>Complitely opensource and free!</p>
+            <p>
+              <iframe src="http://ghbtns.com/github-btn.html?user=markdotto&repo=github-buttons&type=watch&count=true&size=large"
+                allowtransparency="true" frameborder="0" scrolling="0" width="170" height="30"></iframe>
+            </p>
+            {% if not request.user.is_authenticated() %}
+                <p><a class="btn btn-lg btn-success" href="{% url "auth_signup" %}">Try it today</a></p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="marketing">
+        <h2>Let's get it started!</h2>
+        <div class="row">
+            <div class="col-lg-2">
+                <h2>{% trans %}Step 1{% endtrans %}</h2>
+                <p>
+                    <a href="{% url "fling_receiver_add" %}">{% trans %}Create Secret Receiver{% endtrans %}</a>
+                </p>
+            </div>
+            <div class="col-lg-3">
+                <h2>{% trans %}Step 2{% endtrans %}</h2>
+                <p>
+                    {% trans %}<a href="https://developers.google.com/cast/whitelisting#whitelist-receiver">Ask Google for App ID</a>
+                    where specify Secret URL from Step 1 as <i>"URLs for the location of your receiver app"</i>.{% endtrans %}
+                </p>
+                <p>
+                    {% trans %}In Chromecast desktop or mobile application, under Privacy, check the box to Send this Chromecast's serial number when checking for updates.{% endtrans %}
+                </p>
+            </div>
+            <div class="col-lg-3">
+                <h2>{% trans %}Step 3{% endtrans %}</h2>
+                <p>
+                    {% url "fling_receiver_list" as fling_receiver_list_url %}
+                    {% trans %}After you get your App ID, go to <a href="{{ fling_receiver_list_url }}">Fling Receivers page</a> and set App ID for according Secret URL.{% endtrans %}
+                </p>
+            </div>
+            <div class="col-lg-4">
+                <h2>{% trans %}Step 4 (Profit){% endtrans %}</h2>
+                <ol>
+                    <li><a href="http://goo.gl/HAc9ex">{% trans %}Download Fling{% endtrans %}</a></li>
+                    <li>... you have to run fling.jar: <pre>java -jar fling.jar APP_ID</pre> <i>(I hope this will be somehow fixed)</i></li>
+                    <li>{% trans %}You are ready to stream videos to Chromecast from your computer! <a href="http://youtu.be/fehncl0nTAE">Profit!</a>{% endtrans %}</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,9 @@
+<form action="{% url "fling_receiver_delete" %}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="fling_receiver_id" value="{{ fling_receiver.id }}">
+    <h3>{% trans fling_receiver_secret_key=fling_receiver.secret_key %}Do you realy want to delete Receiver "{{ fling_receiver_secret_key }}"?{% endtrans %}</h3>
+    <div class="form-actions">
+        <input type="submit" class="btn" value="{% trans %}Yes{% endtrans %}" rel="close_facebox">
+        <input type="reset" class="btn" value="{% trans %}No{% endtrans %}" rel="close_facebox">
+    </div>
+</form>

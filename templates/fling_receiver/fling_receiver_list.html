@@ -1,0 +1,36 @@
+{% extends "site_base.html" %}
+
+{% block head_title %}{% trans %}Receivers{% endtrans %}{% endblock %}
+
+{% block title %}
+    <div class="page-header">
+        <h1>
+            {% trans %}Receivers{% endtrans %}
+            <a href="{% url "fling_receiver_add" %}" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i> {% trans %}Create receiver{% endtrans %}</a>
+        </h1>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <table class="table table-striped">
+        <tr>
+            <th>{% trans %}Secret URL{% endtrans %}</th>
+            <th>{% trans %}App ID{% endtrans %}</th>
+            <th></th>
+        </tr>
+        {% for fling_receiver in fling_receiver_list %}
+            <tr>
+                <td><a href="{{ fling_receiver.get_secret_absolute_url() }}">{{ fling_receiver.secret_key }}</a></td>
+                <td>{% if fling_receiver.app_id %}{{ fling_receiver.app_id }}{% else %}{% trans %}Not specified yet{% endtrans %}{% endif %}</td>
+                <td>
+                    <a href="{% url "fling_receiver_edit" fling_receiver.id %}" class="btn btn-primary">
+                        <i class="glyphicon glyphicon-link"></i> {% trans %}Set AppID{% endtrans %}
+                    </a>
+                    <a href="{% url "fling_receiver_predelete" fling_receiver.id %}" class="btn btn-danger">
+                        <i class="glyphicon glyphicon-trash"></i> {% trans %}Delete{% endtrans %}
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

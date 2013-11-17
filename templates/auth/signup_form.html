@@ -1,0 +1,40 @@
+{% macro signup_fieldset(request, form) %}
+    {% if not form %}
+        {% set form = get_signup_form() %}
+    {% endif %}
+    {{ bootstrap_form(form, layout='horizontal') }}
+{% endmacro %}
+
+{% macro signup_form(request, form) %}
+    <form method="POST" action="{% url "auth_signup" %}" rel="ajax" class="form-horizontal">
+        {% csrf_token %}
+        <fieldset>
+            {{ signup_fieldset(request, form) }}
+        </fieldset>
+
+        {#<div class="form-group">
+            <div class="signup-agreement col-md-offset-2 col-md-10">
+                {% trans %}By clicking on "Sign up for free" below, you agree to the <a href="/terms/">Terms of Use</a> and the <a href="/privacy/">Privacy Policy</a>.{% endtrans %}
+            </div>
+        </div>#}
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-primary" value="{% trans %}Sign up for free{% endtrans %}" />
+            </div>
+        </div>
+    </form>
+{% endmacro %}
+
+{% macro signup_widget(request, form) %}
+    {% if request.user.is_authenticated() %}
+        <p class="alert alert-info"><strong>{% trans %}Note{% endtrans %}:</strong> {% trans %}You are already logged in as {{ user }}.{% endtrans %}</p>
+    {% else %}
+        {% url "auth_login" as login_url %}
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <p>{% trans next=request.GET.next %}Already have an account? <a href="{{ login_url }}?next={{ next }}">Log In</a>!{% endtrans %}</p>
+            </div>
+        </div>
+    {% endif %}
+    {{ signup_form(request, form) }}
+{% endmacro %}

@@ -1,0 +1,24 @@
+html, body {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    padding-top: 50px; /* Account for fixed navbar */
+}
+
+
+.histogram-col {
+    width: 305px;
+    vertical-align: bottom;
+}
+.histogram {
+    width: 270px;
+    height: 120px;
+    float: left;
+}
+.histogram-col .btn-popover {
+    margin-top: 50px;
+    float:right;
+    display: block;
+}
