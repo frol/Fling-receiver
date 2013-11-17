@@ -8,9 +8,7 @@
 {% macro signup_form(request, form) %}
     <form method="POST" action="{% url "auth_signup" %}" rel="ajax" class="form-horizontal">
         {% csrf_token %}
-        <fieldset>
-            {{ signup_fieldset(request, form) }}
-        </fieldset>
+        {{ signup_fieldset(request, form) }}
 
         {#<div class="form-group">
             <div class="signup-agreement col-md-offset-2 col-md-10">

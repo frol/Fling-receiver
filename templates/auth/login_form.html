@@ -8,9 +8,7 @@
 {% macro login_form(request, form) %}
     <form method="POST" action="{% url "auth_login" %}" rel="ajax" class="form-horizontal">
         {% csrf_token %}
-        <fieldset>
-            {{ login_fieldset(request, form) }}
-        </fieldset>
+        {{ login_fieldset(request, form) }}
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" class="btn btn-primary" value="{% trans %}Log in &raquo;{% endtrans %}" />
