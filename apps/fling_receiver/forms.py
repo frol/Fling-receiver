@@ -42,4 +42,14 @@ class FlingReceiverEditForm(forms.ModelForm):
         model = FlingReceiver
         fields = ('app_id', )
 
+    def __init__(self, *args, **kwargs):
+        super(FlingReceiverEditForm, self).__init__(*args, **kwargs)
+        # Actually, App ID is 36 chars long, however sometimes after copy-paste it
+        # gets space at the begining and then truncate 36th character, which is why
+        # I limit max_length to 40 chars instead of 36. Regexp will validate
+        # length and format correctly so no worries.
+        self.fields['app_id'].widget.attrs['maxlength'] = '40'
+        self.fields['app_id'].validators[0].limit_value = 40
 
+    def clean_app_id(self):
+        return self.cleaned_data['app_id'].strip()
