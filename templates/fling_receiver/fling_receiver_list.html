@@ -15,18 +15,20 @@
     <table class="table table-striped">
         <tr>
             <th>{% trans %}Secret URL{% endtrans %}</th>
+            <th>{% trans %}Secret Key{% endtrans %}</th>
             <th>{% trans %}App ID{% endtrans %}</th>
             <th></th>
         </tr>
         {% for fling_receiver in fling_receiver_list %}
             <tr>
-                <td><a href="{{ fling_receiver.get_secret_absolute_url() }}">{{ fling_receiver.secret_key }}</a></td>
+                <td><a href="{{ fling_receiver.get_secret_absolute_url() }}"><i class="glyphicon glyphicon-link"></i> Right click and copy link</a></td>
+                <td>{{ fling_receiver.secret_key }}</td>
                 <td>{% if fling_receiver.app_id %}{{ fling_receiver.app_id }}{% else %}{% trans %}Not specified yet{% endtrans %}{% endif %}</td>
                 <td>
-                    <a href="{% url "fling_receiver_edit" fling_receiver.id %}" class="btn btn-primary">
+                    <a href="{% url "fling_receiver_edit" fling_receiver.id %}" class="btn btn-sm btn-primary">
                         <i class="glyphicon glyphicon-link"></i> {% trans %}Set AppID{% endtrans %}
                     </a>
-                    <a href="{% url "fling_receiver_predelete" fling_receiver.id %}" class="btn btn-danger">
+                    <a href="{% url "fling_receiver_predelete" fling_receiver.id %}" class="btn btn-sm btn-danger">
                         <i class="glyphicon glyphicon-trash"></i> {% trans %}Delete{% endtrans %}
                     </a>
                 </td>
