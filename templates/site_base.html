@@ -12,12 +12,11 @@
     <header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav">
         <nav class="collapse navbar-collapse bs-navbar-collapse container" role="navigation">
             <ul class="nav navbar-nav">
+                <li><a href="{% url "root" %}">{% trans %}Home{% endtrans %}</a></li>
                 {% if user.is_authenticated() %}
-                    <li><a href="{% url "root" %}">{% trans %}Dashboard{% endtrans %}</a></li>
                     <li><a href="{% url "fling_receiver_list" %}">{% trans %}Fling Receivers{% endtrans %}</a></li>
                     <li><a href="{% url "auth_logout" %}">{% trans %}Sign out{% endtrans %}</a></li>
                 {% else %}
-                    <li><a href="{% url "root" %}">{% trans %}Home{% endtrans %}</a></li>
                     <li><a href="{% url "auth_login" %}">{% trans %}Sign in{% endtrans %}</a></li>
                     <li><a href="{% url "auth_signup" %}">{% trans %}Sign up{% endtrans %}</a></li>
                 {% endif %}

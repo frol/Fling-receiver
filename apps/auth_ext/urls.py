@@ -4,7 +4,7 @@ from django.contrib.auth.views import password_reset, password_reset_done, \
 
 urlpatterns = patterns('auth_ext.views',
     # Sign up, Login and Logout
-    url(r'^signup/$', 'signup', name="auth_signup"),
+    url(r'^signup/$', 'signup', {'success_url': 'fling_receiver_add'}, name="auth_signup"),
     url(r'^login/$', 'login', name="auth_login"),
     # Email confirmation
     url(r'^confirmation/send/$', 'send_confirm_email', name='auth_email_confirmation'),
