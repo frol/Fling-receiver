@@ -3,9 +3,20 @@ import re
 from django import forms
 from django.conf import settings
 from django.contrib.auth import authenticate, login, get_user_model
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import send_mail
+from django.utils.http import urlsafe_base64_encode
 from django.utils.translation import ugettext_lazy as _, ugettext
+from django.utils.encoding import force_bytes
+
+try:
+    from coffin.template.loader import render_to_string
+except ImportError:
+    from django.template.loader import render_to_string
 
 from .models import EmailConfirmation
+
+send_html_mail = None
 
 User = get_user_model()
 alnum_re = re.compile(r'^[\w\-_.]+$')
@@ -57,3 +68,45 @@ class SignupForm(forms.Form):
             new_user.is_active = False
             new_user.save()
         return username, password # required for authenticate()
+
+
+class PasswordResetForm(forms.Form):
+    email = forms.EmailField(label=_("Email"), max_length=254)
+
+    def save(self, domain_override=None,
+             subject_template_name='auth/password_reset_subject.txt',
+             email_template_name='auth/password_reset_email.html',
+             email_template_name_txt='auth/password_reset_email.txt',
+             use_https=False, token_generator=default_token_generator,
+             from_email=None, request=None):
+        """
+        Generates a one-use only link for resetting password and sends to the
+        user.
+        """
+        UserModel = get_user_model()
+        email = self.cleaned_data["email"]
+        users = UserModel._default_manager.filter(email__iexact=email)
+        for user in users:
+            # Make sure that no email is sent to a user that actually has
+            # a password marked as unusable
+            if not user.has_usable_password():
+                continue
+            from django.template import RequestContext
+            request_context = RequestContext(request)
+            c = {
+                'email': user.email,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'user': user,
+                'token': token_generator.make_token(user),
+                'protocol': 'https' if use_https else 'http',
+                'SITE_DOMAIN': settings.SITE_DOMAIN,
+            }
+            subject = render_to_string(subject_template_name, c, context_instance=request_context)
+            # Email subject *must not* contain newlines
+            subject = ''.join(subject.splitlines())
+            body_txt = render_to_string(email_template_name_txt, c, context_instance=request_context)
+            if send_html_mail:
+                body_html = render_to_string(email_template_name, c, context_instance=request_context)
+                send_html_mail(subject, body_txt, body_html, from_email, [user.email])
+            else:
+                send_mail(subject, body_txt, from_email, [user.email])

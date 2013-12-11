@@ -1,6 +1,9 @@
 from django.conf.urls import patterns, url
 from django.contrib.auth.views import password_reset, password_reset_done, \
-    password_reset_confirm, password_reset_complete
+    password_reset_confirm, password_reset_complete, password_reset_confirm_uidb36
+
+from .forms import PasswordResetForm
+
 
 urlpatterns = patterns('auth_ext.views',
     # Sign up, Login and Logout
@@ -19,18 +22,35 @@ urlpatterns += patterns('django.contrib.auth.views',
 
 urlpatterns += patterns('misc.views',
     url(r'^language/(?P<lang>\w+)/$', 'language_change', name="auth_language_change"),
-    # Reset password
+)
+
+# Password reset (django.contib.auth urls redefinition with Jinja2 rendering)
+urlpatterns += patterns('misc.views',
     url(r'^password_reset/$', 'coffin_template_response', {
-        'view': password_reset,
-        'template_name': 'auth/password_reset_form.html',
-        'email_template_name': 'auth/password_reset_email.html'}, name="auth_password_reset"),
+            'template_name': 'auth/password_reset_form.html',
+            'view': password_reset,
+            'password_reset_form': PasswordResetForm,
+            'subject_template_name': 'auth/password_reset_subject.txt',
+            'post_reset_redirect': 'auth_password_reset_done',
+            'email_template_name': 'auth/password_reset_email.html'
+         }, name="auth_password_reset"),
     url(r'^password_reset_done/$', 'coffin_template_response', {
-        'view': password_reset_done, 
-        'template_name': 'auth/password_reset_done.html'}, name="auth_password_reset_done"),
-    url(r'^password_reset_confirm/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$', 'coffin_template_response', {
-        'view': password_reset_confirm,
-        'template_name': 'auth/password_reset_confirm.html'}, name="auth_password_reset_confirm"),
+            'template_name': 'auth/password_reset_done.html',
+            'view': password_reset_done
+         }, name="auth_password_reset_done"),
+    url(r'^password_reset_confirm/(?P<uidb36>[0-9A-Za-z]{1,13})-(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        'coffin_template_response', {
+            'template_name': 'auth/password_reset_confirm.html',
+            'view': password_reset_confirm_uidb36,
+        }, name='auth_password_reset_confirm_uidb36'),
+    url(r'^password_reset_confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        'coffin_template_response', {
+            'template_name': 'auth/password_reset_confirm.html',
+            'view': password_reset_confirm,
+            'post_reset_redirect': 'auth_password_reset_complete',
+        }, name='auth_password_reset_confirm'),
     url(r'^password_reset_complete/$', 'coffin_template_response', {
-        'view': password_reset_complete,
-        'template_name': 'auth/password_reset_complete.html'}, name="auth_password_reset_complete"),
+            'template_name': 'auth/password_reset_complete.html',
+            'view': password_reset_complete
+         }, name="auth_password_reset_complete"),
 )
